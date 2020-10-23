@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <canvas id="one" width="400" height="400"></canvas>
+
+    <style>
+        #one {
+            width: 400px;
+            height: 400px;
+            background: #f2f2f2;
+            display: block;
+            margin: 100px auto;
+        }
+    </style>
+
+    <script>
+
+        let cvs = document.querySelector('#one');
+        let ctx = cvs.getContext('2d');
+
+        let x = 100;
+        let y = 100;
+        let r = 50;
+
+        // 绘制背景线圈；
+        ctx.beginPath();
+        ctx.lineCap = "round";
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = "#aaa";
+        let PI = Math.PI;
+        ctx.arc(x, y, r, 0.75 * PI, 2.25 * PI);
+        ctx.stroke();
+        ctx.closePath();
+
+
+
+
+
+        function move(p) {
+
+            let n = 0;
+            let c = 0;
+
+            function draw() {
+                // 绘制背景线圈；
+                ctx.beginPath();
+                ctx.lineCap = "round";
+                ctx.lineWidth = 8;
+                ctx.strokeStyle = "#ccc";
+                ctx.arc(x, y, r, 0.75 * PI, 2.25 * PI);
+                ctx.stroke();
+                ctx.closePath();
+
+                // 绘制进度表
+                ctx.beginPath();
+                ctx.lineCap = "round";
+                ctx.lineWidth = 8;
+                ctx.strokeStyle = "#00aeef";
+                ctx.arc(x, y, r, 0.75 * PI, (0.75 + (1.5 * n)) * PI);
+                ctx.stroke();
+
+                // 绘制圆形
+                ctx.beginPath();
+                ctx.fillStyle = "#0000ff";
+                // 计算小圆点轨迹 x,y 坐标
+                let deg = -(360 * n * 0.75) - (45);
+                let bb = x + Math.sin((2 * PI / 360) * deg) * r;
+                let cc = y + Math.cos((2 * PI / 360) * deg) * r;
+                ctx.arc(bb, cc, 8, 0, 2 * PI);
+                ctx.fill();
+                ctx.closePath();
+
+
+                if (n < p) {
+                    n += 0.025;
+                    setTimeout(() => {
+                        ctx.clearRect(0, 0, 300, 200);
+                        draw()
+
+                    }, 16)
+                }
+            }
+            draw();
+
+
+
+        }
+
+        move(0.55)
+
+    </script>
+
+</body>
+
+</html>
